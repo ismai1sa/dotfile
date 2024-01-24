@@ -1,4 +1,3 @@
-oism
 {config, pkgs, ... }: 
 {
 imports = [
