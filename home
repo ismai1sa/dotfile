@@ -1,0 +1,11 @@
+{config, pkgs, ... }: 
+{
+imports = [
+    ./hyprland.nix
+  ];
+
+  home.username = "Ninja";
+  home.home.Directory = "/home/Ninja";
+  home.stateVersion = "23.05";
+}
+
