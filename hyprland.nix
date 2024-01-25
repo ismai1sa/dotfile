@@ -2,20 +2,30 @@
    inputs,
    pkg,
    config,
-}
+...
+}:
 {
 home = {
- }
+    file = {
+      ".config/hypr/hyprpaper.conf".source = ./config/hyprpaper.conf;
+    };
+ };
 wayland.windowManager.hyprland ={
     enable = true;
      
-      setting = {
+      settings= {
         monitor = ",preferred,auto,auto";
         env = [
-              "XCURSOR_SIZE,20"];
+               #"WLR_DRM_ATOMIC,1"
+               #"QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
+                #"QT_AUTO_SCREEN_SCALE_FACTOR,1"
+                #"QT_QPA_PLATFORM,wayland;xcb"
+               #"WLR_NO_HARDWARE_CURSORS,1"
+                "XCURSOR_SIZE,20"];
          input = {
-         kb_layout = us;
-         kb_options = "caps:swapescape";};
+         kb_layout = "us";
+#         kb_options = "caps:swapescape";
+};
       general = { 
           gaps_in = 5;
           gaps_out = 10;
@@ -28,8 +38,13 @@ wayland.windowManager.hyprland ={
         layout = "dwindle";
 
         # Please see https://wiki.hyprland.org/Configuring/Tearing/ before you turn this on
-        allow_tearing = true;
+       # allow_tearing = true;
       };
+         exec-once = [
+               "waybar"
+               "swaybg -i ~/Downloads/wallpaper1.png"
+];
+                         
      decoration = {
         # See https://wiki.hyprland.org/Configuring/Variables/ for more
 
@@ -80,6 +95,7 @@ wayland.windowManager.hyprland ={
       };
 misc = {
         disable_autoreload = true;
+        disable_splash_rendering= false;
         # force_default_wallpaper = 0; # Set to 0 to disable the anime mascot wallpapers
         disable_hyprland_logo = true;
         focus_on_activate = true;
@@ -91,19 +107,19 @@ misc = {
         "$mainMod SHIFT, return, exec, kitty"
         "$mainMod SHIFT, C, killactive, "
         "$mainMod SHIFT, Q, exit, "
-        "$mainMod, E, exec, dolphin"
+        #"$mainMod, E, exec, dolphin"
         "$mainMod, P, exec, rofi -show drun -show-icons"
-        "$mainMod, R, pseudo," # dwindle
-        "$mainMod SHIFT, J, togglesplit," # dwindle
+       # "$mainMod, R, pseudo," # dwindle
+       # "$mainMod SHIFT, J, togglesplit," # dwindle
         ", xf86audioraisevolume, exec, wpctl set-volume -l 1.0 @DEFAULT_SINK@ 5%+"
         ", xf86audiolowervolume, exec, wpctl set-volume -l 1.0 @DEFAULT_SINK@ 5%-"
         ", xf86audiomute, exec, wpctl set-mute @DEFAULT_SINK@ toggle"
         ", xf86audiomicmute, exec, wpctl set-mute @DEFAULT_SOURCE@ toggle"
-        ", xf86monbrightnessup, exec, ${pkgs.light}/bin/light -A 2"
-        ", xf86monbrightnessdown, exec, ${pkgs.light}/bin/light -U 2"
+        ", xf86monbrightnessup, exec, light -A 2"
+        ", xf86monbrightnessdown, exec,light -U 2"
 # Move focus with mainMod + arrow keys
         # "$mainMod, K, cyclenext, prev"
-        "$mainMod, J, cyclenext,"
+       # "$mainMod, J, cyclenext,"
 
         # Switch workspaces with mainMod + [0-9]
         "$mainMod, 1, workspace, 1"
@@ -116,10 +132,6 @@ misc = {
         "$mainMod, 8, workspace, 8"
         "$mainMod, 9, workspace, 9"
         "$mainMod, 0, workspace, 10"
-        "$mainMod, F1, workspace, 11"
-        "$mainMod, F2, workspace, 12"
-        "$mainMod, F3, workspace, 13"
-        "$mainMod, F4, workspace, 14"
 
         # Move active window to a workspace with mainMod + SHIFT + [0-9]
         "$mainMod SHIFT, 1, movetoworkspacesilent, 1"
@@ -132,10 +144,6 @@ misc = {
         "$mainMod SHIFT, 8, movetoworkspacesilent, 8"
         "$mainMod SHIFT, 9, movetoworkspacesilent, 9"
         "$mainMod SHIFT, 0, movetoworkspacesilent, 10"
-        "$mainMod SHIFT, F1, movetoworkspacesilent, 11"
-        "$mainMod SHIFT, F2, movetoworkspacesilent, 12"
-        "$mainMod SHIFT, F3, movetoworkspacesilent, 13"
-        "$mainMod SHIFT, F4, movetoworkspacesilent, 14"
 
         # Example special workspace (scratchpad)
         "$mainMod, S, togglespecialworkspace, magic"
@@ -154,17 +162,17 @@ misc = {
         "$mainMod, H, splitratio, -0.2"
         "$mainMod, L, splitratio, +0.2"
 
-        ''$mainMod, Print, exec, ${pkgs.grim}/bin/grim -l 4 -g "`${pkgs.slurp}/bin/slurp -w 0`" - | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png && wl-paste > ~/Pictures/screenshots/screenshot-$(date +%a-%d-%b-%H-%M-%S).png | dunstify "Screenshot of the region taken" -t 1000''
-        ''SHIFT, Print, exec, ${pkgs.grim}/bin/grim -l 8 -g "`${pkgs.slurp}/bin/slurp -w 0`" - | ${pkgs.swappy}/bin/swappy -f - ''
+       # ''$mainMod, Print, exec, ${pkgs.grim}/bin/grim -l 4 -g "`${pkgs.slurp}/bin/slurp -w 0`" - | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png && wl-paste > ~/Pictures/screenshots/screenshot-$(date +%a-%d-%b-%H-%M-%S).png | dunstify "Screenshot of the region taken" -t 1000''
+       # ''SHIFT, Print, exec, ${pkgs.grim}/bin/grim -l 8 -g "`${pkgs.slurp}/bin/slurp -w 0`" - | ${pkgs.swappy}/bin/swappy -f - ''
 
         #gamemode
-        "$mainMod, G, exec, gamemode"
+        #"$mainMod, G, exec, gamemode"
 
         # wallpaper
         "$mainMod, W, exec, chpaper"
 
         # swaylock
-        "$mainMod CTRL, L, exec, swaylock"
+       # "$mainMod CTRL, L, exec, swaylock"
 
         # poweroff
         "$mainMod CTRL WIN, Delete, exec, poweroff"
@@ -173,7 +181,7 @@ misc = {
         "SUPER, E, exec, hyprctl keyword monitor HDMI-A-2,preferred,auto,auto"
 
         # clipman
-        ''SUPER, V, exec, ${pkgs.clipman}/bin/clipman pick -t rofi --tool-args="-theme gruvbox-dark"''
+        # ''SUPER, V, exec, ${pkgs.clipman}/bin/clipman pick -t rofi --tool-args="-theme gruvbox-dark"''
 
         # rofi-powermenu
         ''$mainMod, Delete, exec, rofi-powermenu''
@@ -201,5 +209,5 @@ bindm = [
         # Move/resize windows with mainMod + LMB/RMB and dragging
         "$mainMod, mouse:272, movewindow"
         "$mainMod, mouse:273, resizewindow"
-      ];};}}
+      ];};};}
 
